@@ -1,1 +1,39 @@
-i
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Music Player</title>
+</head>
+<body>
+
+<input type="file" id="fileInput" accept=".mp3">
+<ul id="songList"></ul>
+<audio id="audioPlayer" controls></audio>
+
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const songList = document.getElementById('songList');
+    const audioPlayer = document.getElementById('audioPlayer');
+
+    fileInput.addEventListener('change', function() {
+        const songFile = this.files[0];
+        if (songFile) {
+            const listItem = document.createElement('li');
+            listItem.textContent = songFile.name;
+            listItem.onclick = () => {
+                audioPlayer.src = URL.createObjectURL(songFile);
+                audioPlayer.play();
+            };
+            songList.appendChild(listItem);
+        }
+    });
+</script>
+
+</body>
+</html>
+
+
+
+
