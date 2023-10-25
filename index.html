@@ -1,14 +1,70 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Music Player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #backgroundContainer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            transition: background 1s;
+        }
+
+        #fileInput {
+            margin: 20px 0;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #songList {
+            list-style: none;
+            padding: 0;
+            width: 300px;
+            max-height: 250px;
+            overflow-y: scroll;
+        }
+
+        #songList li {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin: 5px 0;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #songList li:hover {
+            background-color: #eee;
+        }
+
+        #audioPlayer {
+            margin-top: 20px;
+        }
+
+    </style>
 </head>
 <body>
-
-<input type="file" id="fileInput" accept=".mp3">
+<div id="backgroundContainer"></div>
+<input type="file" id="fileInput" accept="audio/*">
 <ul id="songList"></ul>
 <audio id="audioPlayer" controls></audio>
 
@@ -16,6 +72,7 @@
     const fileInput = document.getElementById('fileInput');
     const songList = document.getElementById('songList');
     const audioPlayer = document.getElementById('audioPlayer');
+    const backgroundContainer = document.getElementById('backgroundContainer');
 
     fileInput.addEventListener('change', function() {
         const songFile = this.files[0];
@@ -25,9 +82,16 @@
             listItem.onclick = () => {
                 audioPlayer.src = URL.createObjectURL(songFile);
                 audioPlayer.play();
+
+                // Dynamically change the background when a song is playing
+                backgroundContainer.style.background = `url('https://source.unsplash.com/random/1920x1080?music') center/cover no-repeat`;
             };
             songList.appendChild(listItem);
         }
+    });
+
+    audioPlayer.addEventListener('pause', () => {
+        backgroundContainer.style.background = '';
     });
 </script>
 
